@@ -26,9 +26,10 @@ def register_user(request: RegisterRequest, db: Session = Depends(get_db)):
     # If there is no user, create new one.
     new_user = User(
         email=request.email,
-        password=hash_password(request.password),
+        password_hash=hash_password(request.password),
         first_name=request.first_name,
-        last_name=request.last_name
+        last_name=request.last_name,
+        status="active"
     )
     db.add(new_user)
     db.commit()
