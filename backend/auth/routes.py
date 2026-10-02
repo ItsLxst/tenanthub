@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
@@ -29,7 +31,9 @@ def register_user(request: RegisterRequest, db: Session = Depends(get_db)):
         password_hash=hash_password(request.password),
         first_name=request.first_name,
         last_name=request.last_name,
-        status="active"
+        status="active",
+        created_at=datetime.utcnow(),
+        updated_at=datetime.utcnow()
     )
     db.add(new_user)
     db.commit()
