@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 from jose import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 import os
 
@@ -22,5 +22,5 @@ def create_access_token(data: dict) -> str:
     SECRET_KEY = os.getenv("SECRET_KEY")
     ALGORITHM = "HS256"
     copy_data = data.copy()
-    copy_data.update({"exp": datetime.utcnow() + timedelta(minutes=30)})
+    copy_data.update({"exp": datetime.now(timezone.utc) + timedelta(minutes=30)})
     return jwt.encode(copy_data, SECRET_KEY, algorithm=ALGORITHM)
